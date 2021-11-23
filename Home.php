@@ -1,7 +1,10 @@
 <?php
+session_start();
+
 $_SESSION['menu'] = 1;
 $_SESSION['page_title'] = "Home";
 include 'templates/parts/Header.php';
+
 ?>
 
 
