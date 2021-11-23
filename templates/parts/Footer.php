@@ -35,6 +35,7 @@
 
 <!-- Custom JS -->
 <?php if ($_SESSION['menu'] == 2) : ?>
+    <script src="public/dataTables/instruments-datatable.js"></script>
     <script src="public/custom-js/instruments-page.js"></script>
 <?php endif; ?>
 
