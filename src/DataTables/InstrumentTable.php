@@ -30,7 +30,8 @@ $table = <<<EOT
       serial_number, 
       location_name,
       '<button class="btn btn-block btn-xs btn-secondary" id="buttonMore"><i class="fas fa-search"></i> More</button>
-      <button class="btn btn-block btn-xs btn-info" id="buttonHistory"><i class="fas fa-history"></i> History</button>' as buttons,
+      <button class="btn btn-block btn-xs btn-info" id="buttonHistory"><i class="fas fa-history"></i> History</button>
+      <button class="btn btn-block btn-xs btn-warning" id="buttonArchive"><i class="fas fa-archive"></i> Archive</button>' as buttons,
        (@cnt := @cnt + 1) as instrument_no
     FROM
       instruments 
