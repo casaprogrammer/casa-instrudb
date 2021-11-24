@@ -19,3 +19,7 @@
 .custom-link-color:hover {
     color: green !important;
 }
+
+.custom-link-color {
+    color: darkgreen;
+}
