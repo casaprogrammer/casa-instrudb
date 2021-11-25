@@ -43,33 +43,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 <!-- Right navbar links -->
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                    <?php if ($_SESSION['menu'] == 1) : ?>
-                        <!-- SEARCH FORM -->
-                        <form class="form-inline ml-0 ml-md-3">
-                            <div class="input-group input-group-sm">
-                                <input class="form-control form-control-navbar" type="search" placeholder="Search Instrument" aria-label="Search">
-                                <div class="input-group-append">
-                                    <button class="btn btn-navbar" type="submit">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    <?php else : ?>
+                    <?php if ($_SESSION['menu'] != 1) : ?>
                         <div class="collapse navbar-collapse order-3" id="navbarCollapse">
                             <!-- Left navbar links -->
                             <ul class="navbar-nav">
-                                <?php if ($_SESSION['menu'] != 1) : ?>
-                                    <li class="nav-item">
-                                        <a href="Home.php" class="nav-link">Home</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="InstrumentsDatabase.php" class="nav-link">Instruments</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="Logbook.php" class="nav-link">Logbook</a>
-                                    </li>
-                                <?php endif; ?>
+                                <li class="nav-item">
+                                    <a href="Home.php" class="nav-link">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="InstrumentsDatabase.php" class="nav-link">Instruments</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="Logbook.php" class="nav-link">Logbook</a>
+                                </li>
                             </ul>
                         </div>
                     <?php endif; ?>
