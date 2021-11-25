@@ -27,17 +27,18 @@ $table = <<<EOT
       tag_name, 
       brand, 
       model,
-      serial_number, 
+      serial_number,
+      category_id,
+      location_id,
+      category_name, 
       location_name,
-      '<button class="btn btn-block btn-xs btn-secondary" id="buttonMore"><i class="fas fa-search"></i> More</button>
-      <button class="btn btn-block btn-xs btn-info" id="buttonHistory"><i class="fas fa-history"></i> History</button>
-      <button class="btn btn-block btn-xs btn-warning" id="buttonArchive"><i class="fas fa-archive"></i> Archive</button>' as buttons,
-       (@cnt := @cnt + 1) as instrument_no
+      '<button class="btn btn-block btn-xs btn-info" id="buttonDetails"><i class="fas fa-clipboard-list"></i> Details</button>
+      <button class="btn btn-block btn-xs btn-secondary" id="buttonHistory"><i class="fas fa-history"></i> History</button>' as buttons
     FROM
       instruments 
-      JOIN locations
-      ON locations.id = location_id
-      CROSS JOIN (SELECT @cnt := 0) AS dummy
+      LEFT JOIN categories ON categories.id = category_id
+      LEFT JOIN locations ON locations.id = location_id
+      WHERE `status` = 1
  ) temp
 EOT;
 
@@ -49,15 +50,17 @@ $primaryKey = 'id';
 // parameter represents the DataTables column identifier. In this case simple
 // indexes
 $columns = array(
-    array('db' => 'instrument_no', 'dt' => 0),
-    array('db' => 'id', 'dt' => 1),
-    array('db' => 'instrument_name',  'dt' => 2),
-    array('db' => 'tag_name',     'dt' => 3),
-    array('db' => 'brand',     'dt' => 4),
-    array('db' => 'model',     'dt' => 5),
-    array('db' => 'serial_number',     'dt' => 6),
+    array('db' => 'id', 'dt' => 0),
+    array('db' => 'instrument_name',  'dt' => 1),
+    array('db' => 'tag_name',     'dt' => 2),
+    array('db' => 'brand',     'dt' => 3),
+    array('db' => 'model',     'dt' => 4),
+    array('db' => 'serial_number',     'dt' => 5),
+    array('db' => 'category_name',     'dt' => 6),
     array('db' => 'location_name',     'dt' => 7),
-    array('db' => 'buttons',     'dt' => 8)
+    array('db' => 'category_id',     'dt' => 8),
+    array('db' => 'location_id',     'dt' => 9),
+    array('db' => 'buttons',     'dt' => 10)
 );
 
 // SQL connection information
