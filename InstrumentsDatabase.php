@@ -56,7 +56,6 @@ $categories = new Categories($database->DatabaseConnection());
                                 <!--Instruments-->
                                 <div class="tab-pane fade show active" id="custom-tabs-two-instruments" role="tabpanel" aria-labelledby="custom-tabs-two-instruments-tab">
                                     <table class="table table-hover dt-responsive table-responsive-sm" style="width:100%;" id="tblInstruments">
-                                        <caption>List of Instruments</caption>
                                         <thead class="thead-light" style="white-space:nowrap">
                                             <tr>
                                                 <th>ID</th>
@@ -65,7 +64,7 @@ $categories = new Categories($database->DatabaseConnection());
                                                 <th>Brand</th>
                                                 <th>Model</th>
                                                 <th>Serial #</th>
-                                                <th>Type</th>
+                                                <th>Category</th>
                                                 <th>Location</th>
                                                 <th>Category ID</th>
                                                 <th>Location ID</th>
@@ -77,33 +76,15 @@ $categories = new Categories($database->DatabaseConnection());
                                 </div>
                                 <!--Categories-->
                                 <div class="tab-pane fade" id="custom-tabs-two-categories" role="tabpanel" aria-labelledby="custom-tabs-two-categories-tab">
-                                    <table class="table table-hover dt-responsive nowrap" style="width:100%;" id="">
-                                        <thead style="white-space:nowrap;">
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Name</th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody></tbody>
-                                    </table>
+                                    Category table here
                                 </div>
                                 <!--Locations-->
                                 <div class="tab-pane fade" id="custom-tabs-two-locations" role="tabpanel" aria-labelledby="custom-tabs-two-locations-tab">
-                                    <table class="table table-hover dt-responsive nowrap" style="width:100%;" id="">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Name</th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody></tbody>
-                                    </table>
+                                    Location table here
                                 </div>
                                 <!--Archive-->
                                 <div class="tab-pane fade" id="custom-tabs-two-archive" role="tabpanel" aria-labelledby="custom-tabs-two-archive-tab">
-                                    This is the archive table
+                                    Archive table here
                                 </div>
                             </div>
                         </div>
@@ -156,7 +137,7 @@ $categories = new Categories($database->DatabaseConnection());
                                                         <input type="text" id="inputSerialNumber" class="form-control">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="inputStatus">Instrument Type</label>
+                                                        <label for="inputStatus">Instrument Category</label>
                                                         <select class="form-control custom-select" id="selectCategory">
                                                             <option value="0" selected="" disabled="">Select one</option>
                                                             <?php foreach ($categories->GetAllCategories() as $category) : ?>
@@ -268,7 +249,7 @@ $categories = new Categories($database->DatabaseConnection());
                                                         <input type="text" id="instrumentSerialNumber" class="form-control">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="inputStatus">Instrument Type</label>
+                                                        <label for="inputStatus">Instrument Category</label>
                                                         <select class="form-control custom-select" id="instrumentCategory">
                                                             <option value="0" selected="" disabled="">Select one</option>
                                                             <?php foreach ($categories->GetAllCategories() as $category) : ?>
@@ -287,6 +268,12 @@ $categories = new Categories($database->DatabaseConnection());
                                                     </div>
                                                 </div>
                                                 <!-- /.card-body -->
+                                                <div class="card-footer">
+                                                    <button type="button" class="btn btn-success float-right" id="updateInstrumentDetails">
+                                                        <i class="fas fa-save"></i>
+                                                        Save
+                                                    </button>
+                                                </div>
                                             </div>
                                             <!-- /.card -->
                                         </div>
@@ -317,32 +304,28 @@ $categories = new Categories($database->DatabaseConnection());
                                                         <i class="fas fa-plus"></i>
                                                         Add Parameter
                                                     </button>
+                                                    <button type="button" class="btn btn-success float-right" id="updateInstrumentParameters">
+                                                        <i class="fas fa-save"></i>
+                                                        Save
+                                                    </button>
                                                 </div>
                                             </div>
                                             <!-- /.card -->
                                         </div>
                                     </div>
-
-                                    <!-- Action buttons -->
-                                    <div class="row">
-                                        <div class="col-md-12 mb-3">
-                                            <div class="button-group float-right">
-                                                <button type="button" class="btn btn-warning btn-sm">
-                                                    <i class="fa fa-archive"></i> Archive Instrument
-                                                </button>
-                                                <button type="button" class="btn btn-success btn-sm">
-                                                    <i class="fa fa-file-excel"></i> Export Data
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
+
                                 <div class="modal-footer justify-content-between">
                                     <input type="text" id="instrumentId" hidden>
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                     <div class="button-group">
-                                        <button type="button" class="btn btn-primary" id="buttonUpdateInstrument"><i class="fa fa-save"></i> Save</button>
+                                        <button type="button" class="btn btn-warning btn-sm">
+                                            <i class="fa fa-archive"></i> Archive Instrument
+                                        </button>
+                                        <button type="button" class="btn btn-success btn-sm">
+                                            <i class="fa fa-file-excel"></i> Export Data
+                                        </button>
                                     </div>
+                                    <button type="button" class="btn btn-default float-right" data-dismiss="modal">Close</button>
                                 </div>
                             </div>
                             <!-- /.modal-content -->
@@ -351,6 +334,58 @@ $categories = new Categories($database->DatabaseConnection());
                     </div>
                 </section>
                 <!-- /. Instrument Detail -->
+
+                <!-- Parameter History -->
+                <section class="content">
+                    <div class="modal fade" id="modal-parameter-history" style="display: none;" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="parameterHistoryTitle"></h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="card card-secondary">
+                                                <div class="card-header">
+                                                    <h3 class="card-title">Instrument Parameter History</h3>
+
+                                                    <div class="card-tools">
+                                                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                                            <i class="fas fa-minus"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <table class="table table-hover dt-responsive table-responsive-sm" style="width:100%;" id="tblParameterHistory">                                                       
+                                                        <thead class="thead-light" style="white-space:nowrap">
+                                                            <tr>
+                                                                <th>Parameter</th>
+                                                                <th>Value</th>
+                                                                <th>Date</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+                                                <!-- /.card-body -->
+                                            </div>
+                                            <!-- /.card -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                                <div class="modal-footer">
+                                    <input type="text" id="instrumentId" hidden>
+                                    <button type="button" class="btn btn-default float-right" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                </section>
+                <!-- /. Parameter History -->
 
             </div>
             <!-- /.row -->
