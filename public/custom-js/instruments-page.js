@@ -1,5 +1,7 @@
 $(function () {
 
+    let originalParameters = [];
+
     //Adding Parameters on New Instrument
     $('#addParameter').on('click', function () {
         let lastField = $("#divParameters div:last");
@@ -68,7 +70,8 @@ $(function () {
             $serialNumber = $("#inputSerialNumber").val(),
             $category = $("#selectCategory").val(),
             $location = $("#selectLocation").val(),
-            $parameters = [];
+            $parameters = [],
+            saving = false;
 
         if ($location == null) {
             $location = 1;
@@ -78,17 +81,35 @@ $(function () {
             $category = 1;
         }
 
-        $('div[id="div1"]').each(function () {
-            $parameters.push({
-                'parameterName': $(this).find('input[id="parameterName[]"]').val(),
-                'parameterValue': $(this).find('input[id="parameterValue[]"]').val(),
-                'dateCalibration': $(this).find('input[id="dateCalibration[]"]').val()
-            });
-        })
+        if ($('div[id="div1"]').length > 0) {
+            $('div[id="div1"]').each(function () {
+                if ($(this).find('input[id="parameterName[]"]').val() == "") {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'error',
+                        title: 'Add value or delete empty parameter',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+                else {
+                    $parameters.push({
+                        'parameterName': $(this).find('input[id="parameterName[]"]').val(),
+                        'parameterValue': $(this).find('input[id="parameterValue[]"]').val(),
+                        'dateCalibration': $(this).find('input[id="dateCalibration[]"]').val()
+                    });
+
+                    saving = true;
+                }
+            })
+        }
+        else {
+            saving = true;
+        }
 
         if ($instrumentName == '') {
             Swal.fire({
-                position: 'top-center',
+                position: 'center',
                 icon: 'error',
                 title: 'Name field is empty',
                 showConfirmButton: false,
@@ -96,53 +117,55 @@ $(function () {
             });
         }
         else {
-            $.ajax({
-                url: 'src/Controller/AddNewInstrument.php',
-                type: "POST",
-                dataType: "json",
-                encode: true,
-                data: {
-                    instrumentName: $instrumentName,
-                    tagName: $tagName,
-                    brand: $brand,
-                    model: $model,
-                    serialNumber: $serialNumber,
-                    category: $category,
-                    location: $location,
-                    parameters: JSON.stringify($parameters)
-                }
-            })
-                .done(function (response) {
-                    if (response) {
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: 'Instrument Saved Successfully',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                        setTimeout(function () {
-                            OnModalSave();
-                        }, 1500);
-                    }
-                    else {
-                        Swal.fire({
-                            position: 'top-center',
-                            icon: 'error',
-                            title: 'Failed to save changes',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
+            if (saving) {
+                $.ajax({
+                    url: 'src/Controller/AddNewInstrument.php',
+                    type: "POST",
+                    dataType: "json",
+                    encode: true,
+                    data: {
+                        instrumentName: $instrumentName,
+                        tagName: $tagName,
+                        brand: $brand,
+                        model: $model,
+                        serialNumber: $serialNumber,
+                        category: $category,
+                        location: $location,
+                        parameters: JSON.stringify($parameters)
                     }
                 })
-                .fail(function (jqXHR, textStatus) {
-                    console.log(jqXHR, textStatus);
-                })
+                    .done(function (response) {
+                        if (response) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Instrument Saved Successfully',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            setTimeout(function () {
+                                OnModalSave();
+                            }, 1500);
+                        }
+                        else {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'error',
+                                title: 'Failed to save changes',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+                    })
+                    .fail(function (jqXHR, textStatus) {
+                        console.log(jqXHR, textStatus);
+                    })
+            }
         }
     });
 
-    //Update Instrument
-    $('#buttonUpdateInstrument').on('click', function () {
+    //Update Instrument Details
+    $('#updateInstrumentDetails').on('click', function () {
         let
             $instrumentId = $('#instrumentId').val(),
             $instrumentName = $("#instrumentName").val(),
@@ -151,8 +174,7 @@ $(function () {
             $model = $("#instrumentModel").val(),
             $serialNumber = $("#instrumentSerialNumber").val(),
             $category = $("#instrumentCategory").val(),
-            $location = $("#instrumentLocation").val(),
-            $parameters = [];
+            $location = $("#instrumentLocation").val();
 
         if ($location == null) {
             $location = 1;
@@ -161,15 +183,6 @@ $(function () {
         if ($category == null) {
             $category = 1;
         }
-
-        $('div[id="div2"]').each(function () {
-            $parameters.push({
-                'parameterId': $(this).find('input[id="updateParameterId[]"').val(),
-                'parameterName': $(this).find('input[id="updateParameterName[]"]').val(),
-                'parameterValue': $(this).find('input[id="updateParameterValue[]"]').val(),
-                'dateCalibration': $(this).find('input[id="updateDateCalibration[]"]').val()
-            });
-        })
 
         if ($instrumentName == '') {
             Swal.fire({
@@ -194,12 +207,14 @@ $(function () {
                     model: $model,
                     serialNumber: $serialNumber,
                     category: $category,
-                    location: $location,
-                    parameters: JSON.stringify($parameters)
+                    location: $location
                 }
             })
                 .done(function (response) {
                     if (response) {
+
+                        table.ajax.reload();
+
                         Swal.fire({
                             position: 'center',
                             icon: 'success',
@@ -207,9 +222,6 @@ $(function () {
                             showConfirmButton: false,
                             timer: 1500
                         });
-                        setTimeout(function () {
-                            OnModalSave();
-                        }, 1500);
                     }
                     else {
                         Swal.fire({
@@ -227,6 +239,98 @@ $(function () {
         }
     });
 
+    //Update Instrument Parameters
+    $('#updateInstrumentParameters').on('click', function () {
+        let
+            $instrumentId = $('#instrumentId').val(),
+            $parameters = [],
+            saving = false;
+
+        if ($('div[id="div2"]').length > 0) {
+            $('div[id="div2"]').each(function () {
+
+                let updatedParameterId = $(this).find('input[id="updateParameterId[]"').val();
+                let updatedParameterName = $(this).find('input[id="updateParameterName[]"]').val();
+                let updatedParameterValue = $(this).find('input[id="updateParameterValue[]"]').val();
+                let updatedParameterDate = $(this).find('input[id="updateDateCalibration[]"]').val();
+
+                if (updatedParameterName == "") {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Add value or delete empty parameter',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+                else {
+                    if (CheckParameterId(updatedParameterId)) {
+                        if (!CheckParameter(updatedParameterName, updatedParameterValue, updatedParameterDate)) {
+                            $parameters.push({
+                                'parameterId': updatedParameterId,
+                                'parameterName': updatedParameterName,
+                                'parameterValue': updatedParameterValue,
+                                'dateCalibration': updatedParameterDate
+                            });
+                        }
+                    }
+                    else {
+                        $parameters.push({
+                            'parameterId': updatedParameterId,
+                            'parameterName': updatedParameterName,
+                            'parameterValue': updatedParameterValue,
+                            'dateCalibration': updatedParameterDate
+                        });
+                    }
+
+                    saving = true;
+                }
+            })
+        }
+
+        if (saving) {
+            $.ajax({
+                url: 'src/Controller/UpdateParameters.php',
+                type: "POST",
+                dataType: "json",
+                encode: true,
+                data: {
+                    instrumentId: $instrumentId,
+                    parameters: JSON.stringify($parameters)
+                }
+            })
+                .done(function (response) {
+                    if (response) {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Instrument Updated Successfully',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        setTimeout(function () {
+                            $('#modal-instrument-details').modal('hide');
+                        }, 1500);
+
+                    }
+                    else {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'error',
+                            title: 'Failed to save changes',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                })
+                .fail(function (jqXHR, textStatus) {
+                    console.log(jqXHR, textStatus);
+                })
+        }
+
+        //console.log(CheckParameter('Pmax', '20 bar', '2021-11-26'));
+    });
+
 
     /**
      * Table Functions
@@ -236,15 +340,24 @@ $(function () {
 
     let table = $('#tblInstruments').DataTable();
 
-    $('#tblInstruments').off('click').on('click', 'button[id="buttonDetails"]', function () {
+    $('#tblInstruments').on('click', 'button[id="buttonDetails"]', function () {
 
         $('#modal-instrument-details').modal('show');
 
+        /**
+         * On row responsive
+         */
         let $current_row = $(this).parents('tr');
         if ($current_row.hasClass('child')) {
             $current_row = $current_row.prev();
         }
         let $instrumentId = table.row($current_row).data()[0];
+
+
+        /**
+         * Getting row data in appending to 
+         * inputs on modal
+         */
 
         $('#detailsTitle').html(table.row($current_row).data()[1]);
 
@@ -264,8 +377,27 @@ $(function () {
             dataType: "json"
         })
             .done(function (data) {
+
                 $('#divExistingParameters').html('');
+
                 for (var i = 0; i < data.length; i++) {
+
+                    /**
+                     * Store original values
+                     */
+                    originalParameters.push({
+                        'parameterId': data[i].parameterId,
+                        'parameterName': data[i].parameterName,
+                        'parameterValue': data[i].parameterValue,
+                        'dateCalibration': data[i].dateCalibration
+                    });
+
+
+                    /**
+                     * Appending all instrument parameter
+                     * to divParameter
+                     */
+
                     let lastField = $("#divParameters div:last");
                     let divId = (lastField && lastField.length && lastField.data("idx") + 2) || 2;
                     let divWrapper = $("<div class=\"form-group row\" id=\"div" + divId + "\"/>");
@@ -281,17 +413,23 @@ $(function () {
                         "</div>");
                     let removeButton = $("<button type=\"button\" class=\"btn btn-danger\"><i class=\"fa fa-trash\"></button>");
 
+
+                    /**
+                     * Function to dynamically delete parameter values 
+                     * from the UI and database
+                     */
                     removeButton.click(function () {
+
                         $parameterId = $(this).parent().find('input[id="updateParameterId[]"]').val();
 
                         Swal.fire({
                             title: 'Are you sure?',
-                            text: "You're deleting this parameter",
+                            text: "You're permanently deleting this parameter",
                             icon: 'warning',
                             showCancelButton: true,
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
-                            confirmButtonText: 'Yes, Delete this.'
+                            confirmButtonColor: '#d33',
+                            cancelButtonColor: '#3085d6',
+                            confirmButtonText: 'Delete'
                         }).then((result) => {
                             if (result.value == true) {
 
@@ -308,6 +446,7 @@ $(function () {
                                         if (response) {
 
                                             $(removeButton).parent().remove();
+                                            RemoveParameter($parameterId);
 
                                             Swal.fire({
                                                 position: 'center',
@@ -342,6 +481,85 @@ $(function () {
             })
     })
 
+    $('#tblInstruments').on('click', 'button[id="buttonHistory"]', function () {
+
+        $('#modal-parameter-history').modal('show');
+
+        /**
+         * On row responsive
+         */
+        let $current_row = $(this).parents('tr');
+        if ($current_row.hasClass('child')) {
+            $current_row = $current_row.prev();
+        }
+        let $instrumentId = table.row($current_row).data()[0];
+
+        /**
+         * Card Title
+         */
+        $('#parameterHistoryTitle').html(table.row($current_row).data()[1]);
+        let $historyTitle = $('#parameterHistoryTitle').html();
+
+        $.ajax({
+            url: "src/Controller/GetAllParameters.php?instrumentId=" + $instrumentId,
+            type: "GET",
+            dataType: "json"
+        })
+            .done(function (data) {
+                var currentParameter = '';
+
+                /**
+                 * Appending Parameter Data on tbody
+                 */
+                $.each(data, function (i, data) {
+
+                    var body = "<tr>";
+
+                    // Checks whether current parameter is still the same
+                    // If yes, next row text will be less visible (opacity)
+                    if (currentParameter != data.parameterName) {
+                        var body = "<tr>";
+                        body += "<td>" + data.parameterName + "</td>";
+                        body += "<td>" + data.parameterValue + "</td>";
+                        body += "<td>" + data.dateCalibration + "</td>";
+                        body += "</tr>";
+                    }
+                    else {
+                        body += "<td style='opacity:0.1'>" + data.parameterName + "</td>";
+                        body += "<td>" + data.parameterValue + "</td>";
+                        body += "<td>" + data.dateCalibration + "</td>";
+                        body += "</tr>";
+                    }
+
+                    currentParameter = data.parameterName;
+
+                    $('#tblParameterHistory tbody').append(body);
+
+                });
+
+                //Initialize Parameter history table
+                $('#tblParameterHistory').DataTable({
+                    destory: true,
+                    "dom": '<lBQf<t>ip>',
+                    buttons: [
+                        {
+                            extend: 'excel',
+                            title: $historyTitle + ' Parameter History',
+                            filename: $historyTitle + ' Parameter History',
+                            exportData: {
+                                stripHtml: false
+                            }
+                        },
+
+                        'print'
+                    ]
+                });
+            })
+
+            .fail(function (jqXHR, textStatus) {
+                console.log(jqXHR, textStatus);
+            })
+    })
 
 
 
@@ -358,7 +576,19 @@ $(function () {
         $("#inputSerialNumber").val('');
         $("#selectCategory").val('0');
         $("#selectLocation").val('0');
+        $('#divParameters').html("");
     })
+
+    $('#modal-parameter-history').on('hidden.bs.modal', function () {
+        $('#tblParameterHistory tbody').empty();
+        $('#tblParameterHistory').DataTable().clear();
+        $('#tblParameterHistory').DataTable().destroy();
+
+    })
+
+    /**
+     * Functions
+     */
 
     function OnModalSave() {
         table.ajax.reload();
@@ -371,8 +601,62 @@ $(function () {
         }
     }
 
-    function OnUpdate() {
-        table.ajax.reload();
+    function CheckParameterId(id) {
+        let existingValue = false;
+
+        if (originalParameters.length > 0) {
+            for (var i = 0; i < originalParameters.length; i++) {
+                if (originalParameters[i].parameterId == id) {
+
+                    existingValue = true;
+                    break;
+                }
+            }
+        }
+
+        return existingValue;
     }
 
+    function CheckParameter(name, value, date) {
+        let existingValues = false;
+
+        if (originalParameters.length > 0) {
+            for (var i = 0; i < originalParameters.length; i++) {
+                if (originalParameters[i].dateCalibration == date &&
+                    originalParameters[i].parameterValue == value &&
+                    originalParameters[i].parameterName == name) {
+
+                    existingValues = true;
+                    break;
+                }
+            }
+        }
+
+        return existingValues;
+    }
+
+    // function CheckParameterValue(value, date) {
+    //     let equal = false;
+
+    //     if (originalParameters.length > 0) {
+    //         for (var i = 0; i < originalParameters.length; i++) {
+    //             if (originalParameters[i].dateCalibration == date && originalParameters[i].parameterValue == value) {
+    //                 equal = true;
+    //                 break;
+    //             }
+    //         }
+    //     }
+
+    //     return equal;
+    // }
+
+    function RemoveParameter(id) {
+        for (var i = 0; i < originalParameters.length; i++) {
+            if (originalParameters[i].parameterId == id) {
+                originalParameters.splice(i, 1);
+            }
+        }
+
+        return originalParameters;
+    }
 });
