@@ -34,6 +34,10 @@ if ($_POST) {
                 $instrumentParameter->dateCalibration = date("Y-m-d", strtotime($parameter['dateCalibration']));
 
                 $saveSuccess = $instrumentParameter->AddInstrumentParameter($lastId);
+
+                if($saveSuccess){
+                    $instrumentParameter->LogParameter($lastId);
+                }
             }
         } else {
             $saveSuccess = true;
