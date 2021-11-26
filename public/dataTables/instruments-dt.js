@@ -9,14 +9,9 @@ $(function () {
                 }
             },
             {
-                extend: 'copy',
-                exportOptions: {
-                    stripHtml: false,
-                    columns: [1, 2, 3, 4, 5, 6, 7]
-                }
-            },
-            {
                 extend: 'excel',
+                title: 'Instruments Database',
+                filename: 'Instruments Database',
                 exportOptions: {
                     stripHtml: false,
                     columns: [1, 2, 3, 4, 5, 6, 7]
