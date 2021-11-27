@@ -14,6 +14,29 @@ class Categories
         $this->con = $database;
     }
 
+    public function AddCategory()
+    {
+        $query = "INSERT INTO " . $this->tableName . "
+                  SET category_name=:categoryName";
+
+        $insertStatement = $this->con->prepare($query);
+        $insertStatement->bindParam(':categoryName', $this->categoryName);
+
+        return ($insertStatement->execute()) ?? false;
+    }
+
+    public function UpdateCategoryDetail($id)
+    {
+        $query = "UPDATE " . $this->tableName . "
+                  SET category_name=:categoryName
+                  WHERE id = $id";
+
+        $updateStatement = $this->con->prepare($query);
+        $updateStatement->bindParam(':categoryName', $this->categoryName);
+
+        return ($updateStatement->execute()) ?? false;
+    }
+
     public function GetAllCategories()
     {
 
