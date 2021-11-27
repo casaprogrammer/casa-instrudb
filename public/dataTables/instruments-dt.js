@@ -1,6 +1,6 @@
 $(function () {
     $('#tblInstruments').DataTable({
-        "dom": '<lBQf<t>ip>',
+        "dom": '<lBf<t>ip>',
         buttons: [
             {
                 text: 'New',
