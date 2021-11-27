@@ -332,7 +332,7 @@ $(function () {
     });
 
 
-    
+
     /**
      * Table Functions
      * 
@@ -352,7 +352,7 @@ $(function () {
         }
         let $instrumentId = table.row($current_row).data()[0];
         let $categoryId = table.row($current_row).data()[8];
-
+        let $locationId = table.row($current_row).data()[9];
 
         /**
          * Getting row data in appending to 
@@ -390,6 +390,31 @@ $(function () {
                     }
                 }
                 $('#instrumentCategory').append(html);
+            })
+            .fail(function (jqxhr, textStatus, error) {
+                console.log(jqxhr, textStatus, error);
+            })
+
+        /**
+         * Dynamic Locations Dropdown
+         */
+        $.ajax({
+            url: "src/Controller/Location/GetLocations.php",
+            type: "GET",
+            dataType: "json",
+            encode: true
+        })
+            .done(function (data) {
+                var html = '';
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].id == $locationId) {
+                        html += "<option value=" + data[i].id + " selected>" + data[i].location_name + "</option>";
+                    }
+                    else {
+                        html += "<option value=" + data[i].id + ">" + data[i].location_name + "</option>";
+                    }
+                }
+                $('#instrumentLocation').append(html);
             })
             .fail(function (jqxhr, textStatus, error) {
                 console.log(jqxhr, textStatus, error);
@@ -603,6 +628,10 @@ $(function () {
      */
 
     $('#modal-new-instrument').on('show.bs.modal', function () {
+
+        /**
+         * Categories Dropdown
+         */
         $.ajax({
             url: "src/Controller/Category/GetAllCategory.php",
             type: "GET",
@@ -619,6 +648,27 @@ $(function () {
             .fail(function (jqxhr, textStatus, error) {
                 console.log(jqxhr, textStatus, error);
             })
+
+        /**
+         * Locations Dropdown
+         */
+        $.ajax({
+            url: "src/Controller/Location/GetLocations.php",
+            type: "GET",
+            dataType: "json",
+            encode: true
+        })
+            .done(function (data) {
+                var html = '';
+                for (var i = 0; i < data.length; i++) {
+                    html += "<option value=" + data[i].id + ">" + data[i].location_name + "</option>";
+                }
+                $('#selectLocation').append(html);
+            })
+            .fail(function (jqxhr, textStatus, error) {
+                console.log(jqxhr, textStatus, error);
+            })
+
     })
 
     $('#modal-new-instrument').on('hidden.bs.modal', function () {
@@ -631,13 +681,13 @@ $(function () {
         $('#divParameters').html("");
 
 
-        $("#selectCategory").empty();
-        $("#selectCategory").append('<option value="0" selected="" disabled="">Select one</option>');
+        $("#selectCategory, #selectLocations").empty();
+        $("#selectCategory, #selectLocations").append('<option value="0" selected="" disabled="">Select one</option>');
     })
 
     $('#modal-instrument-details').on('hidden.bs.modal', function () {
-        $("#instrumentCategory").empty();
-        $("#instrumentCategory").append('<option value="0" selected="" disabled="">Select one</option>');
+        $("#instrumentCategory, #instrumentLocation").empty();
+        $("#instrumentCategory, #instrumentLocation").append('<option value="0" selected="" disabled="">Select one</option>');
     })
 
     $('#modal-parameter-history').on('hidden.bs.modal', function () {
