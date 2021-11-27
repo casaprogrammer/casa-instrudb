@@ -68,7 +68,7 @@ $categories = new Categories($database->DatabaseConnection());
                                                 <th>Location</th>
                                                 <th>Category ID</th>
                                                 <th>Location ID</th>
-                                                <th style="width: 8%;"></th>
+                                                <th style="width: 9%;"></th>
                                             </tr>
                                         </thead>
                                         <tbody></tbody>
