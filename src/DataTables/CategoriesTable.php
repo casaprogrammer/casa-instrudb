@@ -24,10 +24,10 @@ $table = <<<EOT
     SELECT 
       id,
       category_name,
-      '<button class="btn btn-block btn-xs btn-info" id="buttonCategoryDetails"><i class="fas fa-clipboard-list"></i> Details</button>
-      <button class="btn btn-block btn-xs btn-secondary" id="buttonDeleteCategory"><i class="fas fa-history"></i> History</button>' as categoryButtons
+      (@cnt := @cnt + 1) as no
     FROM
       categories
+      CROSS JOIN (SELECT @cnt := 0) AS dummy
  ) temp
 EOT;
 
@@ -39,9 +39,9 @@ $primaryKey = 'id';
 // parameter represents the DataTables column identifier. In this case simple
 // indexes
 $columns = array(
-    array('db' => 'id', 'dt' => 0),
-    array('db' => 'category_name',  'dt' => 1),
-    array('db' => 'categoryButtons',     'dt' => 2)
+    array('db' => 'no', 'dt' => 0),
+    array('db' => 'id', 'dt' => 1),
+    array('db' => 'category_name',  'dt' => 2)
 );
 
 // SQL connection information
