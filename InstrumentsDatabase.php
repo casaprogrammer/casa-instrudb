@@ -89,7 +89,16 @@ $categories = new Categories($database->DatabaseConnection());
                                 </div>
                                 <!--Locations-->
                                 <div class="tab-pane fade" id="custom-tabs-two-locations" role="tabpanel" aria-labelledby="custom-tabs-two-locations-tab">
-                                    Location table here
+                                    <table class="table table-hover dt-responsive table-responsive-sm" style="width:100%;" id="tblLocations">
+                                        <thead class="thead-light" style="white-space:nowrap">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>ID</th>
+                                                <th>Location Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
                                 </div>
                                 <!--Archive-->
                                 <div class="tab-pane fade" id="custom-tabs-two-archive" role="tabpanel" aria-labelledby="custom-tabs-two-archive-tab">
@@ -100,6 +109,9 @@ $categories = new Categories($database->DatabaseConnection());
                         <!-- /.card -->
                     </div>
                 </div>
+
+
+                <!-- MODALS STARTS HERE -->
 
                 <!-- Add New Modal-->
                 <section class="content">
@@ -150,9 +162,6 @@ $categories = new Categories($database->DatabaseConnection());
                                                         <label for="location">Location</label>
                                                         <select class="form-control custom-select" id="selectLocation">
                                                             <option value="0" selected="" disabled="">Select one</option>
-                                                            <?php foreach ($locations->GetLocations() as $location) : ?>
-                                                                <option value="<?php echo $location['id']; ?>"><?php echo $location['location_name'] ?></option>
-                                                            <?php endforeach; ?>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -249,9 +258,6 @@ $categories = new Categories($database->DatabaseConnection());
                                                         <label for="location">Location</label>
                                                         <select class="form-control custom-select" id="instrumentLocation">
                                                             <option value="0" selected="" disabled="">Select one</option>
-                                                            <?php foreach ($locations->GetLocations() as $location) : ?>
-                                                                <option value="<?php echo $location['id']; ?>"><?php echo $location['location_name'] ?></option>
-                                                            <?php endforeach; ?>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -397,7 +403,45 @@ $categories = new Categories($database->DatabaseConnection());
                         </div>
                     </div>
                 </section>
-                <!-- /.Add New Modal -->
+                <!-- /.Category Details Modal -->
+
+                <!-- Locations Details-->
+                <section class="content">
+                    <div class="modal fade" id="modal-location-details" style="display: none;" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="modalCategoryTitle">Location</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="categoryName">Location Name:</label>
+                                                <input type="text" id="inputLocationName" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                    <input type="text" id="locationId" hidden>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-success" id="buttonSaveLocation"><i class="fa fa-save"></i> Save</button>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                    </div>
+                </section>
+                <!-- /.Locations Modal -->
+
+
+                <!--/. MODAL ENDS HERE -->
+
             </div>
             <!-- /.row -->
         </div><!-- /.container-fluid -->
