@@ -5,13 +5,6 @@ $_SESSION['menu'] = 2;
 $_SESSION['page_title'] = "Instruments Database";
 
 include 'templates/parts/Header.php';
-include 'src/Classes/Database.php';
-include 'src/Classes/Locations.php';
-include 'src/Classes/Categories.php';
-
-$database = new Database();
-$locations = new Locations($database->DatabaseConnection());
-$categories = new Categories($database->DatabaseConnection());
 ?>
 
 
