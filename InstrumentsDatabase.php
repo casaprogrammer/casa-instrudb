@@ -109,11 +109,6 @@ $categories = new Categories($database->DatabaseConnection());
                                             <div class="card card-success">
                                                 <div class="card-header">
                                                     <h3 class="card-title">Instrument General Details</h3>
-
-                                                    <div class="card-tools">
-                                                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                                            <i class="fas fa-minus"></i></button>
-                                                    </div>
                                                 </div>
                                                 <div class="card-body">
                                                     <div class="form-group">
@@ -165,11 +160,6 @@ $categories = new Categories($database->DatabaseConnection());
                                             <div class="card card-secondary">
                                                 <div class="card-header">
                                                     <h3 class="card-title">Parameters</h3>
-
-                                                    <div class="card-tools">
-                                                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                                            <i class="fas fa-minus"></i></button>
-                                                    </div>
                                                 </div>
                                                 <form class="form-horizontal">
                                                     <div class="card-body">
@@ -221,11 +211,6 @@ $categories = new Categories($database->DatabaseConnection());
                                             <div class="card card-info">
                                                 <div class="card-header">
                                                     <h3 class="card-title">Instrument General Details</h3>
-
-                                                    <div class="card-tools">
-                                                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                                            <i class="fas fa-minus"></i></button>
-                                                    </div>
                                                 </div>
                                                 <div class="card-body">
                                                     <div class="form-group">
@@ -285,11 +270,6 @@ $categories = new Categories($database->DatabaseConnection());
                                             <div class="card card-secondary">
                                                 <div class="card-header">
                                                     <h3 class="card-title">Parameters</h3>
-
-                                                    <div class="card-tools">
-                                                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                                            <i class="fas fa-minus"></i></button>
-                                                    </div>
                                                 </div>
                                                 <form class="form-horizontal">
                                                     <div class="card-body">
@@ -352,14 +332,9 @@ $categories = new Categories($database->DatabaseConnection());
                                             <div class="card card-secondary">
                                                 <div class="card-header">
                                                     <h3 class="card-title">Instrument Parameter History</h3>
-
-                                                    <div class="card-tools">
-                                                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                                            <i class="fas fa-minus"></i></button>
-                                                    </div>
                                                 </div>
                                                 <div class="card-body">
-                                                    <table class="table table-hover dt-responsive table-responsive-sm" style="width:100%;" id="tblParameterHistory">                                                       
+                                                    <table class="table table-hover dt-responsive table-responsive-sm" style="width:100%;" id="tblParameterHistory">
                                                         <thead class="thead-light" style="white-space:nowrap">
                                                             <tr>
                                                                 <th>Parameter</th>
