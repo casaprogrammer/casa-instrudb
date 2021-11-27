@@ -119,7 +119,7 @@ $(function () {
         else {
             if (saving) {
                 $.ajax({
-                    url: 'src/Controller/AddNewInstrument.php',
+                    url: 'src/Controller/Instrument/AddNewInstrument.php',
                     type: "POST",
                     dataType: "json",
                     encode: true,
@@ -195,7 +195,7 @@ $(function () {
         }
         else {
             $.ajax({
-                url: 'src/Controller/UpdateInstrument.php',
+                url: 'src/Controller/Instrument/UpdateInstrument.php',
                 type: "POST",
                 dataType: "json",
                 encode: true,
@@ -290,7 +290,7 @@ $(function () {
 
         if (saving) {
             $.ajax({
-                url: 'src/Controller/UpdateParameters.php',
+                url: 'src/Controller/Instrument/UpdateParameters.php',
                 type: "POST",
                 dataType: "json",
                 encode: true,
@@ -332,6 +332,7 @@ $(function () {
     });
 
 
+    
     /**
      * Table Functions
      * 
@@ -342,23 +343,21 @@ $(function () {
 
     $('#tblInstruments').on('click', 'button[id="buttonDetails"]', function () {
 
-        $('#modal-instrument-details').modal('show');
-
         /**
-         * On row responsive
+         * Responsive shrinking of rows
          */
         let $current_row = $(this).parents('tr');
         if ($current_row.hasClass('child')) {
             $current_row = $current_row.prev();
         }
         let $instrumentId = table.row($current_row).data()[0];
+        let $categoryId = table.row($current_row).data()[8];
 
 
         /**
          * Getting row data in appending to 
          * inputs on modal
          */
-
         $('#detailsTitle').html(table.row($current_row).data()[1]);
 
         $('#instrumentId').val($instrumentId);
@@ -371,8 +370,43 @@ $(function () {
         $('#instrumentLocation').val(table.row($current_row).data()[9]);
 
 
+        /**
+         * Dynamic Category dropdown
+         */
         $.ajax({
-            url: "src/Controller/GetInstrumentParameters.php?instrumentId=" + $instrumentId,
+            url: "src/Controller/Category/GetAllCategory.php",
+            type: "GET",
+            dataType: "json",
+            encode: true
+        })
+            .done(function (data) {
+                var html = '';
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].id == $categoryId) {
+                        html += "<option value=" + data[i].id + " selected>" + data[i].category_name + "</option>";
+                    }
+                    else {
+                        html += "<option value=" + data[i].id + ">" + data[i].category_name + "</option>";
+                    }
+                }
+                $('#instrumentCategory').append(html);
+            })
+            .fail(function (jqxhr, textStatus, error) {
+                console.log(jqxhr, textStatus, error);
+            })
+
+
+        /**
+         * Show modal
+         */
+        $('#modal-instrument-details').modal('show');
+
+
+        /**
+         * Populating (divExistingParameters) div
+         */
+        $.ajax({
+            url: "src/Controller/Instrument/GetInstrumentParameters.php?instrumentId=" + $instrumentId,
             type: "GET",
             dataType: "json"
         })
@@ -383,7 +417,8 @@ $(function () {
                 for (var i = 0; i < data.length; i++) {
 
                     /**
-                     * Store original values
+                     * Store original values 
+                     * For checking changes
                      */
                     originalParameters.push({
                         'parameterId': data[i].parameterId,
@@ -397,7 +432,6 @@ $(function () {
                      * Appending all instrument parameter
                      * to divParameter
                      */
-
                     let lastField = $("#divParameters div:last");
                     let divId = (lastField && lastField.length && lastField.data("idx") + 2) || 2;
                     let divWrapper = $("<div class=\"form-group row\" id=\"div" + divId + "\"/>");
@@ -434,7 +468,7 @@ $(function () {
                             if (result.value == true) {
 
                                 $.ajax({
-                                    url: "src/Controller/DeleteInstrumentParameter.php",
+                                    url: "src/Controller/Instrument/DeleteInstrumentParameter.php",
                                     type: "POST",
                                     dataType: "json",
                                     encode: true,
@@ -501,7 +535,7 @@ $(function () {
         let $historyTitle = $('#parameterHistoryTitle').html();
 
         $.ajax({
-            url: "src/Controller/GetAllParameters.php?instrumentId=" + $instrumentId,
+            url: "src/Controller/Instrument/GetAllParameters.php?instrumentId=" + $instrumentId,
             type: "GET",
             dataType: "json"
         })
@@ -568,15 +602,42 @@ $(function () {
      * 
      */
 
+    $('#modal-new-instrument').on('show.bs.modal', function () {
+        $.ajax({
+            url: "src/Controller/Category/GetAllCategory.php",
+            type: "GET",
+            dataType: "json",
+            encode: true
+        })
+            .done(function (data) {
+                var html = '';
+                for (var i = 0; i < data.length; i++) {
+                    html += "<option value=" + data[i].id + ">" + data[i].category_name + "</option>";
+                }
+                $('#selectCategory').append(html);
+            })
+            .fail(function (jqxhr, textStatus, error) {
+                console.log(jqxhr, textStatus, error);
+            })
+    })
+
     $('#modal-new-instrument').on('hidden.bs.modal', function () {
         $("#inputName").val('');
         $("#inputTagName").val('');
         $("#inputBrand").val('');
         $("#inputModel").val('');
         $("#inputSerialNumber").val('');
-        $("#selectCategory").val('0');
         $("#selectLocation").val('0');
         $('#divParameters').html("");
+
+
+        $("#selectCategory").empty();
+        $("#selectCategory").append('<option value="0" selected="" disabled="">Select one</option>');
+    })
+
+    $('#modal-instrument-details').on('hidden.bs.modal', function () {
+        $("#instrumentCategory").empty();
+        $("#instrumentCategory").append('<option value="0" selected="" disabled="">Select one</option>');
     })
 
     $('#modal-parameter-history').on('hidden.bs.modal', function () {
@@ -585,6 +646,8 @@ $(function () {
         $('#tblParameterHistory').DataTable().destroy();
 
     })
+
+
 
     /**
      * Functions
