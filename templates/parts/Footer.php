@@ -35,8 +35,10 @@
 
 <!-- Custom JS -->
 <?php if ($_SESSION['menu'] == 2) : ?>
-    <script src="public/dataTables/instruments-dtjs"></script>
+    <script src="public/dataTables/instruments-dt.js"></script>
+    <script src="public/dataTables/categories-dt.js"></script>
     <script src="public/custom-js/instruments-tab.js"></script>
+    <script src="public/custom-js/categories-tab.js"></script>
 <?php endif; ?>
 
 </body>
