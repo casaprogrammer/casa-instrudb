@@ -76,7 +76,16 @@ $categories = new Categories($database->DatabaseConnection());
                                 </div>
                                 <!--Categories-->
                                 <div class="tab-pane fade" id="custom-tabs-two-categories" role="tabpanel" aria-labelledby="custom-tabs-two-categories-tab">
-                                    Category table here
+                                    <table class="table table-hover dt-responsive table-responsive-sm" style="width:100%;" id="tblCategories">
+                                        <thead class="thead-light" style="white-space:nowrap">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>ID</th>
+                                                <th>Category Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
                                 </div>
                                 <!--Locations-->
                                 <div class="tab-pane fade" id="custom-tabs-two-locations" role="tabpanel" aria-labelledby="custom-tabs-two-locations-tab">
@@ -135,9 +144,6 @@ $categories = new Categories($database->DatabaseConnection());
                                                         <label for="inputStatus">Instrument Category</label>
                                                         <select class="form-control custom-select" id="selectCategory">
                                                             <option value="0" selected="" disabled="">Select one</option>
-                                                            <?php foreach ($categories->GetAllCategories() as $category) : ?>
-                                                                <option value="<?php echo $category['id']; ?>"><?php echo $category['category_name']; ?></option>
-                                                            <?php endforeach; ?>
                                                         </select>
                                                     </div>
                                                     <div class="form-group">
@@ -237,9 +243,6 @@ $categories = new Categories($database->DatabaseConnection());
                                                         <label for="inputStatus">Instrument Category</label>
                                                         <select class="form-control custom-select" id="instrumentCategory">
                                                             <option value="0" selected="" disabled="">Select one</option>
-                                                            <?php foreach ($categories->GetAllCategories() as $category) : ?>
-                                                                <option value="<?php echo $category['id']; ?>"><?php echo $category['category_name']; ?></option>
-                                                            <?php endforeach; ?>
                                                         </select>
                                                     </div>
                                                     <div class="form-group">
@@ -362,6 +365,39 @@ $categories = new Categories($database->DatabaseConnection());
                 </section>
                 <!-- /. Parameter History -->
 
+                <!-- Category Details-->
+                <section class="content">
+                    <div class="modal fade" id="modal-category-details" style="display: none;" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="modalCategoryTitle">Category</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="categoryName">Category Name:</label>
+                                                <input type="text" id="inputCategoryName" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                    <input type="text" id="categoryId" hidden>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-success" id="buttonSaveCategory"><i class="fa fa-save"></i> Save</button>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                    </div>
+                </section>
+                <!-- /.Add New Modal -->
             </div>
             <!-- /.row -->
         </div><!-- /.container-fluid -->
