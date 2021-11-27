@@ -1,11 +1,11 @@
 $(function () {
     $('#tblCategories').DataTable({
-        "dom": '<lBQf<t>ip>',
+        "dom": '<Bf<t>ip>',
         buttons: [
             {
                 text: 'New',
                 action:function(){
-                   $('#modal-new-instrument').modal('show');
+                   $('#modal-category-details').modal('show');
                 }
             },
         ],
@@ -14,10 +14,10 @@ $(function () {
         "processing": true,
         "serverside": true,
         "responsive": true,
-        "ajax": "src/DataTables/InstrumentsTable.php",
+        "ajax": "src/DataTables/CategoriesTable.php",
         columnDefs: [
             {
-                targets: [0],
+                targets: [1],
                 visible: false,
             }
         ]
