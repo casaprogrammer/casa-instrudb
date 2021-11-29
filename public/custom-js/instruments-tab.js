@@ -679,8 +679,8 @@ $(function () {
         $('#divParameters').html("");
 
 
-        $("#selectCategory, #selectLocations").empty();
-        $("#selectCategory, #selectLocations").append('<option value="0" selected="" disabled="">Select one</option>');
+        $("#selectCategory, #selectLocation").empty();
+        $("#selectCategory, #selectLocation").append('<option value="0" selected="" disabled="">Select one</option>');
     })
 
     $('#modal-instrument-details').on('hidden.bs.modal', function () {
