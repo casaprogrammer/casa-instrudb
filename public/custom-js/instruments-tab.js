@@ -437,8 +437,6 @@ $(function () {
         })
             .done(function (data) {
 
-                $('#divExistingParameters').html('');
-
                 for (var i = 0; i < data.length; i++) {
 
                     /**
@@ -686,6 +684,7 @@ $(function () {
     })
 
     $('#modal-instrument-details').on('hidden.bs.modal', function () {
+        $('#divExistingParameters').html('');
         $("#instrumentCategory, #instrumentLocation").empty();
         $("#instrumentCategory, #instrumentLocation").append('<option value="0" selected="" disabled="">Select one</option>');
     })
