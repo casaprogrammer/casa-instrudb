@@ -9,7 +9,7 @@ $(function () {
         let divWrapper = $("<div class=\"form-group row\" id=\"div" + divId + "\"/>");
         divWrapper.data("idx", divId);
         let optionLabel = $("<label for=\"Parameter\" class=\"col-form-label\"/></label>");
-        let parameterName = $("<div class=\"col-sm-4\"><input type=\"text\" class=\"form-control\" id=\"parameterName[]\" name=\"parameterName[]\" placeholder=\"Parameter Name\">" +
+        let parameterName = $("<div class=\"col-sm-4\"><input type=\"text\" style=\"font-weight:bold\" class=\"form-control\" id=\"parameterName[]\" name=\"parameterName[]\" placeholder=\"Parameter Name\">" +
             "</div>");
         let parameterValue = $("<div class=\"col-sm-4\"><input type=\"text\" class=\"form-control\" id=\"parameterValue[]\" name=\"parameterValue[]\" placeholder=\"Value\">" +
             "</div>");
@@ -464,7 +464,7 @@ $(function () {
                     let optionLabel = $("<label for=\"Parameter\" class=\"col-form-label\"/></label>");
                     let parameterId = $("<div class=\"col-sm-4\" hidden><input type=\"text\" class=\"form-control\" value=" + data[i].parameterId + " id=\"updateParameterId[]\" name=\"updateParameterId[]\" placeholder=\"Parameter Name\">" +
                         "</div>");
-                    let parameterName = $("<div class=\"col-sm-4\"><input type=\"text\" class=\"form-control\" value='" + data[i].parameterName + "' id=\"updateParameterName[]\" name=\"updateParameterName[]\" placeholder=\"Parameter Name\">" +
+                    let parameterName = $("<div class=\"col-sm-4\"><input type=\"text\" style=\"font-weight:bold\" class=\"form-control\" value='" + data[i].parameterName + "' id=\"updateParameterName[]\" name=\"updateParameterName[]\" placeholder=\"Parameter Name\">" +
                         "</div>");
                     let parameterValue = $("<div class=\"col-sm-4\"><input type=\"text\" class=\"form-control\" value='" + data[i].parameterValue + "' id=\"updateParameterValue[]\" name=\"updateParameterValue[]\" placeholder=\"Value\">" +
                         "</div>");
