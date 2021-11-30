@@ -370,6 +370,7 @@ include 'templates/parts/Header.php';
                             </div>
                             <!-- /.modal-dialog -->
                         </div>
+                    </div>
                 </section>
                 <!-- /. Parameter History -->
 
