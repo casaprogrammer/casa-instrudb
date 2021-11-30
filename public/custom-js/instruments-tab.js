@@ -40,7 +40,7 @@ $(function () {
         let divWrapper = $("<div class=\"form-group row\" id=\"div" + divId + "\"/>");
         divWrapper.data("idx", divId);
         let optionLabel = $("<label for=\"Parameter\" class=\"col-form-label\"/></label>");
-        let parameterName = $("<div class=\"col-sm-4\"><input type=\"text\" class=\"form-control\" id=\"updateParameterName[]\" name=\"updateParameterName[]\" placeholder=\"Parameter Name\">" +
+        let parameterName = $("<div class=\"col-sm-4\"><input type=\"text\" style=\"font-weight:bold\" class=\"form-control\" id=\"updateParameterName[]\" name=\"updateParameterName[]\" placeholder=\"Parameter Name\">" +
             "</div>");
         let parameterValue = $("<div class=\"col-sm-4\"><input type=\"text\" class=\"form-control\" id=\"updateParameterValue[]\" name=\"updateParameterValue[]\" placeholder=\"Value\">" +
             "</div>");
