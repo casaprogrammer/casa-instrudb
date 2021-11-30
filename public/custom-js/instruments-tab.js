@@ -33,6 +33,8 @@ $(function () {
 
     //Adding Parameters with Existing Parameters
     $('#addNewParameter').on('click', function () {
+        $('#divNoParameterMessage').prop('hidden', true);
+
         let lastField = $("#divExistingParameters div:last");
         let divId = (lastField && lastField.length && lastField.data("idx") + 2) || 2;
         let divWrapper = $("<div class=\"form-group row\" id=\"div" + divId + "\"/>");
@@ -445,7 +447,10 @@ $(function () {
             }
         })
             .done(function (data) {
-
+                if(data.length == 0){
+                    let divContent = $("<div class=\"text-center\" id=\"divNoParameterMessage\">No Parameter Data Available</div>");
+                    $('#divExistingParameters').append(divContent);
+                }
                 for (var i = 0; i < data.length; i++) {
 
                     /**
