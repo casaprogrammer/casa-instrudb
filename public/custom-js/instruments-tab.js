@@ -132,10 +132,16 @@ $(function () {
                         category: $category,
                         location: $location,
                         parameters: JSON.stringify($parameters)
+                    },
+                    beforeSend: function () {
+                        $('#loadingButton').prop('hidden', false);
+                        $('#buttonSaveNewInstrument').prop('hidden', true);
                     }
                 })
                     .done(function (response) {
                         if (response) {
+                            $('#loadingButton').prop('hidden', true);
+                            $('#buttonSaveNewInstrument').prop('hidden', false);
                             Swal.fire({
                                 position: 'center',
                                 icon: 'success',
@@ -433,7 +439,10 @@ $(function () {
         $.ajax({
             url: "src/Controller/Instrument/GetInstrumentParameters.php?instrumentId=" + $instrumentId,
             type: "GET",
-            dataType: "json"
+            dataType: "json",
+            beforeSend: function () {
+                $('#parameterLoadingSpinner').prop('hidden', false);
+            }
         })
             .done(function (data) {
 
@@ -531,6 +540,8 @@ $(function () {
 
                     $('#divExistingParameters').append(divWrapper);
                 }
+
+                $('#parameterLoadingSpinner').prop('hidden', true);
             })
 
             .fail(function (jqXHR, textStatus) {

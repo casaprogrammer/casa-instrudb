@@ -191,6 +191,10 @@ include 'templates/parts/Header.php';
                                     <div class="modal-footer justify-content-between">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                         <button type="button" class="btn btn-success" id="buttonSaveNewInstrument"><i class="fa fa-save"></i> Save</button>
+                                        <button class="btn btn-success" type="button" id="loadingButton" disabled hidden>
+                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            Loading...
+                                        </button>
                                     </div>
                                 </div>
                                 <!-- /.modal-content -->
@@ -275,6 +279,11 @@ include 'templates/parts/Header.php';
                                                 </div>
                                                 <form class="form-horizontal">
                                                     <div class="card-body">
+                                                        <div class="text-center" id="parameterLoadingSpinner" hidden>
+                                                            <div class="spinner-border" role="status">
+                                                                <span class="sr-only">Loading...</span>
+                                                            </div>
+                                                        </div>
                                                         <div id="divExistingParameters">
 
                                                         </div>
