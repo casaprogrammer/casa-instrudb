@@ -3,7 +3,7 @@ $(function () {
         "dom": '<lBf<t>ip>',
         buttons: [
             {
-                text: 'New',
+                text: 'Add New Instrument',
                 action:function(){
                    $('#modal-new-instrument').modal('show');
                 }
