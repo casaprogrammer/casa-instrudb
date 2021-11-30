@@ -262,7 +262,7 @@ $(function () {
                 let updatedParameterValue = $(this).find('input[id="updateParameterValue[]"]').val();
                 let updatedParameterDate = $(this).find('input[id="updateDateCalibration[]"]').val();
 
-                if (updatedParameterName == "") {
+                if ($(this).find('input[id="updateParameterName[]"]').val() == "") {
                     Swal.fire({
                         position: 'center',
                         icon: 'error',
