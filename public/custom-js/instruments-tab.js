@@ -448,7 +448,7 @@ $(function () {
         })
             .done(function (data) {
                 if(data.length == 0){
-                    let divContent = $("<div class=\"text-center\" id=\"divNoParameterMessage\">No Parameter Data Available</div>");
+                    let divContent = $("<div class=\"text-center\" id=\"divNoParameterMessage\">No Data Available</div>");
                     $('#divExistingParameters').append(divContent);
                 }
                 for (var i = 0; i < data.length; i++) {
