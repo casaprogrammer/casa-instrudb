@@ -95,7 +95,24 @@ include 'templates/parts/Header.php';
                                 </div>
                                 <!--Archive-->
                                 <div class="tab-pane fade" id="custom-tabs-two-archive" role="tabpanel" aria-labelledby="custom-tabs-two-archive-tab">
-                                    Archive table here
+                                    <table class="table table-hover dt-responsive table-responsive-sm" style="width:100%;" id="tblArchive">
+                                        <thead class="thead-light" style="white-space:nowrap">
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Tag Name</th>
+                                                <th>Brand</th>
+                                                <th>Model</th>
+                                                <th>Serial #</th>
+                                                <th>Category</th>
+                                                <th>Location</th>
+                                                <th>Category ID</th>
+                                                <th>Location ID</th>
+                                                <th style="width: 9%;"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -309,10 +326,10 @@ include 'templates/parts/Header.php';
                                 <div class="modal-footer justify-content-between">
                                     <input type="text" id="instrumentId" hidden>
                                     <div class="button-group">
-                                        <button type="button" class="btn btn-warning btn-sm">
+                                        <button type="button" id="buttonArchive" class="btn btn-warning btn-sm">
                                             <i class="fa fa-archive"></i> Archive Instrument
                                         </button>
-                                        <button type="button" class="btn btn-success btn-sm">
+                                        <button type="button" id="buttonExport" class="btn btn-success btn-sm">
                                             <i class="fa fa-file-excel"></i> Export Data
                                         </button>
                                     </div>
@@ -342,7 +359,7 @@ include 'templates/parts/Header.php';
                                         <div class="col-md-12">
                                             <div class="card card-secondary">
                                                 <div class="card-header">
-                                                    <h3 class="card-title">Instrument Parameter History</h3>
+                                                    <h3 class="card-title">Parameter/Calibration History</h3>
                                                 </div>
                                                 <div class="card-body">
                                                     <table class="table table-hover dt-responsive table-responsive-sm" style="width:100%;" id="tblParameterHistory">
