@@ -1,7 +1,7 @@
 <?php
 
-include $_SERVER['DOCUMENT_ROOT'] . 'InstruDB/src/Classes/Database.php';
-include $_SERVER['DOCUMENT_ROOT'] . 'InstruDB/src/Classes/Parameters.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/InstruDB/src/Classes/Database.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/InstruDB/src/Classes/Parameters.php';
 
 $database = new Database();
 $instrumentParameter = new Parameters($database->DatabaseConnection());
