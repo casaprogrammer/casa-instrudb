@@ -41,7 +41,7 @@ $(function () {
                             Swal.fire({
                                 position: 'center',
                                 icon: 'success',
-                                title: 'Instrument restored successful',
+                                title: 'Instrument restored successfully',
                                 showConfirmButton: false,
                                 timer: 1500
                             });

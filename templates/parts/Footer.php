@@ -25,13 +25,6 @@
 <!-- Sweetalert2 -->
 <script src="vendors/AdminLTE-3.0.5/plugins/sweetalert2/sweetalert2.all.min.js"></script>
 
-<!-- DataTables JS -->
-<!-- <script src="public/dataTables/manage-equipment-datatables.js"></script>
-<script src="public/dataTables/manage-personnel-datatables.js"></script>
-<script src="public/dataTables/repair-logs-datatables.js"></script>
-<script src="public/dataTables/manage-department-datatables.js"></script>
-<script src="public/dataTables/archive-datatables.js"></script>
-<script src="public/dataTables/special-jobs-datatables.js"></script> -->
 
 <!-- Custom JS -->
 <?php if ($_SESSION['menu'] == 2) : ?>
@@ -39,11 +32,13 @@
     <script src="public/dataTables/instruments-dt.js"></script>
     <script src="public/dataTables/categories-dt.js"></script>
     <script src="public/dataTables/locations-dt.js"></script>
+    <script src="public/dataTables/archive-dt.js"></script>
 
     <!-- Custom Scripts -->
     <script src="public/custom-js/instruments-tab.js"></script>
     <script src="public/custom-js/categories-tab.js"></script>
     <script src="public/custom-js/locations-tab.js"></script>
+    <script src="public/custom-js/archive-tab.js"></script>
 <?php endif; ?>
 
 </body>

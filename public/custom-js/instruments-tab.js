@@ -1,6 +1,12 @@
 $(function () {
 
     let originalParameters = [];
+    let table = $('#tblInstruments').DataTable();
+    let tableArchive = $('#tblArchive').DataTable();
+
+    /**
+     * Buttons
+     */
 
     //Adding Parameters on New Instrument
     $('#addParameter').on('click', function () {
@@ -273,7 +279,7 @@ $(function () {
                 }
                 else {
                     if (CheckParameterId(updatedParameterId)) {
-                        if (!CheckParameter(updatedParameterName, updatedParameterValue, updatedParameterDate)) {
+                        if (!CheckParameterChanges(updatedParameterName, updatedParameterValue, updatedParameterDate)) {
                             $parameters.push({
                                 'parameterId': updatedParameterId,
                                 'parameterName': updatedParameterName,
@@ -336,19 +342,76 @@ $(function () {
                 })
         }
 
-        //console.log(CheckParameter('Pmax', '20 bar', '2021-11-26'));
     });
 
+    //Archive Instrument
+    $('#buttonArchive').on('click', function () {
+        let $instrumentId = $('#instrumentId').val();
 
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You're archiving this instrument",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Archive Instrument'
+        }).then((result) => {
+            if (result.value == true) {
+
+                $.ajax({
+                    url: 'src/Controller/Instrument/UpdateInstrumentStatus.php',
+                    type: "POST",
+                    dataType: "json",
+                    encode: true,
+                    data: {
+                        instrumentId: $instrumentId,
+                        status: 0 //Archive status number
+                    }
+                })
+                    .done(function (response) {
+                        if (response) {
+
+                            table.ajax.reload();
+                            tableArchive.ajax.reload();
+
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Transfer to archive successful',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            setTimeout(function () {
+                                $('#modal-instrument-details').modal('hide');
+                            }, 1500);
+
+                        }
+                        else {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'error',
+                                title: 'Failed to save changes',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+                    })
+                    .fail(function (jqXHR, textStatus) {
+                        console.log(jqXHR, textStatus);
+                    })
+            }
+        })
+
+
+    });
 
     /**
      * Table Functions
      * 
-     * On click Row Buttons
      */
 
-    let table = $('#tblInstruments').DataTable();
-
+    //Table [Row Button - Details]
     $('#tblInstruments').on('click', 'button[id="buttonDetails"]', function () {
 
         /**
@@ -447,7 +510,7 @@ $(function () {
             }
         })
             .done(function (data) {
-                if(data.length == 0){
+                if (data.length == 0) {
                     let divContent = $("<div class=\"text-center\" id=\"divNoParameterMessage\">No Data Available</div>");
                     $('#divExistingParameters').append(divContent);
                 }
@@ -552,8 +615,9 @@ $(function () {
             .fail(function (jqXHR, textStatus) {
                 console.log(jqXHR, textStatus);
             })
-    })
+    });
 
+    //Table [Row Button - History]
     $('#tblInstruments').on('click', 'button[id="buttonHistory"]', function () {
 
         $('#modal-parameter-history').modal('show');
@@ -632,12 +696,13 @@ $(function () {
             .fail(function (jqXHR, textStatus) {
                 console.log(jqXHR, textStatus);
             })
-    })
+    });
+
 
 
 
     /**
-     * Modal Functions
+     * Modals
      * 
      */
 
@@ -683,7 +748,7 @@ $(function () {
                 console.log(jqxhr, textStatus, error);
             })
 
-    })
+    });
 
     $('#modal-new-instrument').on('hidden.bs.modal', function () {
         $("#inputName").val('');
@@ -697,20 +762,20 @@ $(function () {
 
         $("#selectCategory, #selectLocation").empty();
         $("#selectCategory, #selectLocation").append('<option value="0" selected="" disabled="">Select one</option>');
-    })
+    });
 
     $('#modal-instrument-details').on('hidden.bs.modal', function () {
         $('#divExistingParameters').html('');
         $("#instrumentCategory, #instrumentLocation").empty();
         $("#instrumentCategory, #instrumentLocation").append('<option value="0" selected="" disabled="">Select one</option>');
-    })
+    });
 
     $('#modal-parameter-history').on('hidden.bs.modal', function () {
         $('#tblParameterHistory tbody').empty();
         $('#tblParameterHistory').DataTable().clear();
         $('#tblParameterHistory').DataTable().destroy();
 
-    })
+    });
 
 
 
@@ -745,7 +810,7 @@ $(function () {
         return existingValue;
     }
 
-    function CheckParameter(name, value, date) {
+    function CheckParameterChanges(name, value, date) {
         let existingValues = false;
 
         if (originalParameters.length > 0) {
@@ -763,21 +828,7 @@ $(function () {
         return existingValues;
     }
 
-    // function CheckParameterValue(value, date) {
-    //     let equal = false;
-
-    //     if (originalParameters.length > 0) {
-    //         for (var i = 0; i < originalParameters.length; i++) {
-    //             if (originalParameters[i].dateCalibration == date && originalParameters[i].parameterValue == value) {
-    //                 equal = true;
-    //                 break;
-    //             }
-    //         }
-    //     }
-
-    //     return equal;
-    // }
-
+    //Function to remove parameter on originalParameters array 
     function RemoveParameter(id) {
         for (var i = 0; i < originalParameters.length; i++) {
             if (originalParameters[i].parameterId == id) {
