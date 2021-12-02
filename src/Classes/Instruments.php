@@ -3,7 +3,6 @@
 class Instruments
 {
     private $tableName = "instruments";
-    private $parametersTable = "parameters";
 
     private $con;
 
@@ -65,6 +64,20 @@ class Instruments
         $updateStatement->bindParam(":serialNumber", $this->serialNumber);
         $updateStatement->bindParam(":category", $this->category);
         $updateStatement->bindParam(":location", $this->location);
+
+        return ($updateStatement->execute()) ?? false;
+    }
+
+    public function UpdateInstrumentStatus($instrumentId, $status){
+
+        $query = "UPDATE " . $this->tableName . "
+                SET 
+                status=:status
+                WHERE `id` = $instrumentId";
+
+        $updateStatement = $this->con->prepare($query);
+
+        $updateStatement->bindParam(":status", $status);
 
         return ($updateStatement->execute()) ?? false;
     }
