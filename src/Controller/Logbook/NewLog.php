@@ -9,7 +9,10 @@ $log = new Logbook($database->DatabaseConnection());
 
 if ($_POST) {
 
-    
+    $log->logType = htmlspecialchars(strip_tags($_POST['logType']));
+    $log->details = htmlspecialchars(strip_tags($_POST['details']));
+    $log->logDate = date('Y-m-d', strtotime($_POST['logDate']));
+    $log->instrumentId = $_POST['instrumentId'];
 
-    echo json_encode($location->UpdateLocationDetail($_POST['id']));
+    echo json_encode($log->NewLog());
 }
