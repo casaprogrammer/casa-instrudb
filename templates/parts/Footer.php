@@ -35,11 +35,15 @@
     <script src="public/dataTables/archive-dt.js"></script>
 
     <!-- Custom Scripts -->
-    <script src="public/custom-js/instruments-tab.js"></script>
     <script src="public/custom-js/categories-tab.js"></script>
     <script src="public/custom-js/locations-tab.js"></script>
     <script src="public/custom-js/archive-tab.js"></script>
+<?php elseif ($_SESSION['menu'] == 3) : ?>
+    <script src="public/dataTables/logbook-dt.js"></script>
+    <script src="public/custom-js/logbook-page.js"></script>
 <?php endif; ?>
+
+<script src="public/custom-js/instruments-tab.js"></script>
 
 </body>
 
