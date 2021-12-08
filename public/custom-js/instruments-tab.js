@@ -4,6 +4,18 @@ $(function () {
     let table = $('#tblInstruments').DataTable();
     let tableArchive = $('#tblArchive').DataTable();
 
+    //date now
+    var date = new Date();
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+
+    day = (day < 10) ? '0' + day : day;
+    month = (month < 10) ? '0' + month : month;
+
+    $("#dateLog").val(year + '-' + month + '-' + day);
+
+
     /**
      * Buttons
      */
@@ -406,6 +418,66 @@ $(function () {
 
     });
 
+    //Save Log
+    $('#buttonSaveLog').on('click', function () {
+        let
+            $instrumentId = $('#instrumentIdLog').val(),
+            $logType = $('#inputLogType').val(),
+            $logDate = $('#dateLog').val(),
+            $logDetails = $('#logDetails').val();
+
+        if ($('#inputLogType').val() == "" || $('#logDetails').val() == "") {
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Log type/details field is empty',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+        else {
+            $.ajax({
+                url: 'src/Controller/Logbook/NewLog.php',
+                type: "POST",
+                dataType: "json",
+                encode: true,
+                data: {
+                    instrumentId: $instrumentId,
+                    logType: $logType,
+                    logDate: $logDate,
+                    details: $logDetails
+                }
+            })
+                .done(function (response) {
+                    if (response) {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Log saved Successfully',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        setTimeout(function () {
+                            $('#modal-new-log').modal('hide');
+                        }, 1500);
+
+                    }
+                    else {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'error',
+                            title: 'Failed to save changes',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                })
+                .fail(function (jqXHR, textStatus) {
+                    console.log(jqXHR, textStatus);
+                })
+        }
+    });
+
     /**
      * Table Functions
      * 
@@ -696,9 +768,43 @@ $(function () {
             .fail(function (jqXHR, textStatus) {
                 console.log(jqXHR, textStatus);
             })
+
+        $('#tblLogs').DataTable({
+            destroy: true,
+            "processing": true,
+            "serverside": true,
+            "responsive": true,
+            "ajax": "src/DataTables/Logbook.php?instrumentId=" + $instrumentId,
+            columnDefs: [
+                {
+                    targets: [0, 1],
+                    visible: false,
+                }
+            ]
+        })
     });
 
+    //Table [Row Button - History]
+    $('#tblInstruments').on('click', 'button[id="buttonNewLog"]', function () {
 
+        $('#modal-new-log').modal('show');
+        /**
+        * Responsive shrinking of rows
+        */
+        let $current_row = $(this).parents('tr');
+        if ($current_row.hasClass('child')) {
+            $current_row = $current_row.prev();
+        }
+        let $instrumentId = table.row($current_row).data()[0];
+
+        $('#modalNewLogTitle').html(table.row($current_row).data()[1]);
+        /**
+         * Getting row data in appending to 
+         * inputs on modal
+         */
+
+        $('#instrumentIdLog').val($instrumentId);
+    });
 
 
     /**
@@ -771,12 +877,16 @@ $(function () {
     });
 
     $('#modal-parameter-history').on('hidden.bs.modal', function () {
+        $('#custom-tabs-two-tab a:first').tab("show");
         $('#tblParameterHistory tbody').empty();
         $('#tblParameterHistory').DataTable().clear();
         $('#tblParameterHistory').DataTable().destroy();
-
     });
 
+    $('#modal-new-log').on('hidden.bs.modal', function () {
+        $('#inputLogType').val('');
+        $('#logDetails').val('');
+    })
 
 
     /**
