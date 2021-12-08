@@ -14,6 +14,7 @@ class Instruments
     public $serialNumber;
     public $category;
     public $location;
+    public $instruments = array();
 
 
     public function __construct($database)
@@ -68,8 +69,8 @@ class Instruments
         return ($updateStatement->execute()) ?? false;
     }
 
-    public function UpdateInstrumentStatus($instrumentId, $status){
-
+    public function UpdateInstrumentStatus($instrumentId, $status)
+    {
         $query = "UPDATE " . $this->tableName . "
                 SET 
                 status=:status
@@ -81,4 +82,19 @@ class Instruments
 
         return ($updateStatement->execute()) ?? false;
     }
+
+    // public function GetInstrumentsDetails()
+    // {
+    //     $query = "SELECT `id`, `instrument_name`, `tag_name`, 
+    //                      `brand`, `model`, `serial_number`
+    //               FROM ".$this->tableName."";
+    //     $selectStatement = $this->con->prepare($query);
+    //     $selectStatement->execute();
+
+    //     while ($row = $selectStatement->fetch(PDO::FETCH_ASSOC)) {
+    //         $instruments[] = $row;
+    //     }
+
+    //     return $instruments;
+    // }
 }
