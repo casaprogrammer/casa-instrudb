@@ -357,25 +357,52 @@ include 'templates/parts/Header.php';
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <div class="card card-secondary">
-                                                <div class="card-header">
-                                                    <h3 class="card-title">Parameter/Calibration History</h3>
+                                            <div class="card card-success card-outline card-outline-tabs">
+                                                <div class="card-header p-0 border-bottom-0">
+                                                    <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
+                                                        <li class="nav-item">
+                                                            <a class="nav-link active custom-link-color" id="custom-tabs-two-param-tab" data-toggle="pill" href="#custom-tabs-two-param" role="tab" aria-controls="custom-tabs-two-instruments" aria-selected="true">Parameter/Calibration History</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link custom-link-color" id="custom-tabs-two-log-tab" data-toggle="pill" href="#custom-tabs-two-log" role="tab" aria-controls="custom-tabs-two-categories" aria-selected="false">Logs History</a>
+                                                        </li>
+                                                    </ul>
                                                 </div>
                                                 <div class="card-body">
-                                                    <table class="table table-hover dt-responsive table-responsive-sm" style="width:100%;" id="tblParameterHistory">
-                                                        <thead class="thead-light" style="white-space:nowrap">
-                                                            <tr>
-                                                                <th>Parameter</th>
-                                                                <th>Value</th>
-                                                                <th>Date</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody></tbody>
-                                                    </table>
+                                                    <div class="tab-content" id="custom-tabs-two-tabContent">
+                                                        <!--Parameter/Calibration-->
+                                                        <div class="tab-pane fade show active" id="custom-tabs-two-param" role="tabpanel" aria-labelledby="custom-tabs-two-param-tab">
+                                                            <table class="table table-hover dt-responsive table-responsive-sm" style="width:100%;" id="tblParameterHistory">
+                                                                <thead class="thead-light" style="white-space:nowrap">
+                                                                    <tr>
+                                                                        <th>Parameter</th>
+                                                                        <th>Value</th>
+                                                                        <th>Date</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody></tbody>
+                                                            </table>
+                                                        </div>
+                                                        <!--Log-->
+                                                        <div class="tab-pane fade" id="custom-tabs-two-log" role="tabpanel" aria-labelledby="custom-tabs-two-log-tab">
+                                                            <table class="table table-hover dt-responsive table-responsive-sm" style="width:100%;" id="tblLogs">
+                                                                <thead class="thead-light" style="white-space:nowrap">
+                                                                    <tr>
+                                                                        <th>ID</th>
+                                                                        <th>Instrument</th>
+                                                                        <th >Details</th>
+                                                                        <th>Type</th>
+                                                                        <th>Date</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody></tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <!-- /.card-body -->
+                                                <!-- /.card -->
                                             </div>
-                                            <!-- /.card -->
+                                            <!-- /.card-body -->
                                         </div>
                                     </div>
                                 </div>
@@ -458,6 +485,57 @@ include 'templates/parts/Header.php';
                     </div>
                 </section>
                 <!-- /.Locations Modal -->
+
+                <!-- New Log-->
+                <section class="content">
+                    <div class="modal fade" id="modal-new-log" style="display: none;" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="modalNewLogTitle"></h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="card card-secondary">
+                                                <div class="card-header">
+                                                    <h3 class="card-title">New Log</h3>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="form-group">
+                                                        <label for="logtType">Log Type</label>
+                                                        <input type="text" id="inputLogType" class="form-control" placeholder="Enter log type">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="date">Date</label>
+                                                        <input type="date" id="dateLog" class="form-control" placeholder="Enter log type">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Log Details</label>
+                                                        <textarea class="form-control" id="logDetails" name="logDetails" rows="5" placeholder="Details ..." spellcheck="false"></textarea>
+                                                    </div>
+                                                </div>
+                                                <!-- /.card-body -->
+                                            </div>
+                                            <!-- /.card -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                    <input type="text" id="instrumentIdLog" hidden>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-success" id="buttonSaveLog"><i class="fa fa-save"></i> Save</button>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                    </div>
+                </section>
+                <!-- /.New Log Modal -->
 
 
                 <!--/. MODAL ENDS HERE -->
