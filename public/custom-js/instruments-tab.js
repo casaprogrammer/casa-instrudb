@@ -1,8 +1,18 @@
 $(function () {
 
+    //Tables
     let originalParameters = [];
     let table = $('#tblInstruments').DataTable();
     let tableArchive = $('#tblArchive').DataTable();
+
+    //Original values
+    let oInstrumentName;
+    let oTagName;
+    let oModel;
+    let oBrand;
+    let oSerialNumber;
+    let oCategory;
+    let oLocation;
 
     //date now
     var date = new Date();
@@ -192,6 +202,8 @@ $(function () {
 
     //Update Instrument Details
     $('#updateInstrumentDetails').on('click', function () {
+        let changesMade = [];
+
         let
             $instrumentId = $('#instrumentId').val(),
             $instrumentName = $("#instrumentName").val(),
@@ -200,7 +212,9 @@ $(function () {
             $model = $("#instrumentModel").val(),
             $serialNumber = $("#instrumentSerialNumber").val(),
             $category = $("#instrumentCategory").val(),
-            $location = $("#instrumentLocation").val();
+            $location = $("#instrumentLocation").val(),
+            $categoryName = $("#instrumentCategory option:selected").text(),
+            $locationName = $("#instrumentLocation option:selected").text();
 
         if ($location == null) {
             $location = 1;
@@ -263,6 +277,74 @@ $(function () {
                     console.log(jqXHR, textStatus);
                 })
         }
+
+        if ($instrumentName != oInstrumentName) {
+            changesMade.push(
+                "Old Name: " + oInstrumentName + "\n" +
+                "New Name: " + $instrumentName);
+        }
+        if ($tagName != oTagName) {
+            changesMade.push(
+                "Old Tag Name: " + oTagName + "\n" +
+                "New Tag Name: " + $tagName);
+        }
+        if ($brand != oBrand) {
+            changesMade.push(
+                "Old Brand: " + oBrand + "\n" +
+                "New Brand: " + $brand);
+        }
+        if ($model != oModel) {
+            changesMade.push(
+                "Old Model: " + oModel + "\n" +
+                "New Model: " + $model);
+        }
+        if ($serialNumber != oSerialNumber) {
+            changesMade.push(
+                "Old Serial Number: " + oSerialNumber + "\n" +
+                "New Serial Number: " + $serialNumber);
+        }
+        if ($categoryName != oCategory) {
+            changesMade.push(
+                "Old Category: " + oCategory + "\n" +
+                "New Category: " + $categoryName);
+        }
+        if ($locationName != oLocation) {
+            changesMade.push(
+                "Old Location: " + oLocation + "\n" +
+                "New Location: " + $locationName);
+        }
+
+        if (changesMade.length > 0) {
+            $.ajax({
+                url: 'src/Controller/Logbook/ChangesLog.php',
+                type: "POST",
+                dataType: "json",
+                encode: true,
+                data: {
+                    instrumentId: $instrumentId,
+                    changesMade: JSON.stringify(changesMade)
+                }
+            })
+                .done(function (response) {
+                    if (response) {
+
+                        changesMade.splice(0, changesMade.length);
+
+                        oInstrumentName = $instrumentName;
+                        oTagName = $tagName;
+                        oBrand = $brand;
+                        oModel = $model;
+                        oSerialNumber = $serialNumber;
+                        oCategory = $categoryName;
+                        oLocation = $locationName;
+                    }
+                })
+                .fail(function (jqXHR, textStatus) {
+                    console.log(jqXHR, textStatus);
+                })
+        }
+
+        //console.log($categoryName);
     });
 
     //Update Instrument Parameters
@@ -478,6 +560,7 @@ $(function () {
         }
     });
 
+
     /**
      * Table Functions
      * 
@@ -512,6 +595,17 @@ $(function () {
         $('#instrumentCategory').val(table.row($current_row).data()[8]);
         $('#instrumentLocation').val(table.row($current_row).data()[9]);
 
+        /**
+         * Store original values in variables for 
+         * checking later on saving
+         */
+        oInstrumentName = table.row($current_row).data()[1];
+        oTagName = table.row($current_row).data()[2];
+        oBrand = table.row($current_row).data()[3];
+        oModel = table.row($current_row).data()[4];
+        oSerialNumber = table.row($current_row).data()[5];
+        oCategory = table.row($current_row).data()[6];
+        oLocation = table.row($current_row).data()[7];
 
         /**
          * Dynamic Category dropdown
@@ -777,14 +871,14 @@ $(function () {
             "ajax": "src/DataTables/Logbook.php?instrumentId=" + $instrumentId,
             columnDefs: [
                 {
-                    targets: [0, 1],
+                    targets: [0, 1, 3],
                     visible: false,
                 }
             ]
         })
     });
 
-    //Table [Row Button - History]
+    //Table [Row Button - New Log]
     $('#tblInstruments').on('click', 'button[id="buttonNewLog"]', function () {
 
         $('#modal-new-log').modal('show');
