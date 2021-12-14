@@ -13,7 +13,7 @@ $(function () {
 
         Swal.fire({
             title: 'Are you sure?',
-            text: "You're archiving this instrument",
+            text: "You're about to restore the instrument",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: 'orange',
