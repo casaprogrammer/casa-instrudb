@@ -32,7 +32,7 @@ $table = <<<EOT
       location_id,
       category_name, 
       location_name,
-      '<button class="btn btn-block btn-xs btn-warning" id="buttonRestore"><i class="fas fa-upload"></i> Restore</button>' as buttons
+      '<button class="btn btn-block btn-xs btn-warning" id="buttonRestore"><i class="fas fa-trash-restore"></i> Restore</button>' as buttons
     FROM
       instruments  
       LEFT JOIN categories ON categories.id = category_id
