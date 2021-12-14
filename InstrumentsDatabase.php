@@ -329,9 +329,9 @@ include 'templates/parts/Header.php';
                                         <button type="button" id="buttonArchive" class="btn btn-warning btn-sm">
                                             <i class="fa fa-archive"></i> Archive Instrument
                                         </button>
-                                        <button type="button" id="buttonExport" class="btn btn-success btn-sm">
+                                        <!-- <button type="button" id="buttonExport" class="btn btn-success btn-sm">
                                             <i class="fa fa-file-excel"></i> Export Data
-                                        </button>
+                                        </button> -->
                                     </div>
                                     <button type="button" class="btn btn-default float-right" data-dismiss="modal">Close</button>
                                 </div>
@@ -385,12 +385,12 @@ include 'templates/parts/Header.php';
                                                         </div>
                                                         <!--Log-->
                                                         <div class="tab-pane fade" id="custom-tabs-two-log" role="tabpanel" aria-labelledby="custom-tabs-two-log-tab">
-                                                            <table class="table table-hover dt-responsive table-responsive-sm" style="width:100%;" id="tblLogs">
-                                                                <thead class="thead-light" style="white-space:nowrap">
+                                                            <table class="table dt-responsive table-responsive-sm" style="width:100%;" id="tblLogs">
+                                                                <thead class="thead-light">
                                                                     <tr>
                                                                         <th>ID</th>
                                                                         <th>Instrument</th>
-                                                                        <th >Details</th>
+                                                                        <th>Details</th>
                                                                         <th>Type</th>
                                                                         <th>Date</th>
                                                                     </tr>
