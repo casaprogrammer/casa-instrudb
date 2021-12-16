@@ -4,7 +4,7 @@ class Database
 {
     private $host = "127.0.0.1";
     private $username = "root";
-    private $password = "jesiah";
+    private $password = "CASAdatabase@123";
     private $dbname = "instrudb";
 
     public $con;
